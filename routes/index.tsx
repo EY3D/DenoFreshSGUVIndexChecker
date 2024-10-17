@@ -148,7 +148,7 @@ export default function Home({ data }: PageProps<any>) {
       <div class="card bg-base-200 w-96 shadow-xl">
         <div class="card-body">
           <h2 class="card-title">SG UV Index</h2>
-          <i>Do you need protection for your largest organ?</i>
+          <i>The sun is a deadly lazer.</i>
           <div class="overflow-x-auto">
             <table class="table">
               <thead>
