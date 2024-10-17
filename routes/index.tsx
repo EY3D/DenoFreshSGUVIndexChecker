@@ -124,30 +124,66 @@ function UVIndex({ data }: ApiProps) {
           <div class="stat-desc">UVIndex</div>
         </div>
 
-        {/* <div class="stat">
+        {
+          /* <div class="stat">
           <div class="stat-title">7PM</div>
           <div class="stat-value">{data.data.records[0].index[0].value}</div>
           <div class="stat-desc">UVIndex</div>
-        </div> */}
+        </div> */
+        }
       </div>
     </div>
   );
 }
 
 export default function Home({ data }: PageProps<any>) {
-  let dataDate = ytdDate
-  if (data.result != null){
-    dataDate = data.result.data.records[0].date
-  }
-  else{
-    dataDate = "dd/mm/yyyy"
+  let dataDate = ytdDate;
+  if (data.result != null) {
+    dataDate = data.result.data.records[0].date;
+  } else {
+    dataDate = "dd/mm/yyyy";
   }
   return (
     <div class="h-screen flex items-center justify-center">
       <div class="card bg-base-200 w-96 shadow-xl">
         <div class="card-body">
           <h2 class="card-title">SG UV Index</h2>
-          <p>Do you need sunscreen?</p>
+          <i>Do you need protection for your largest organ?</i>
+          <div class="overflow-x-auto">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Risk</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>0-2</th>
+                  <td>Low</td>
+                  <td>No protection needed</td>
+                </tr>
+                <tr>
+                  <th>3-5</th>
+                  <td>Moderate</td>
+                  <td>Use sunscreen and sunglasses.</td>
+                </tr>
+                <tr>
+                  <th>6-7</th>
+                  <td>High</td>
+                  <td>
+                    Wear protective clothing, stay in shade during midday.
+                  </td>
+                </tr>
+                <tr>
+                  <th>8-11+</th>
+                  <td>Extreme</td>
+                  <td>Avoid sun.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <label for="start">Date:</label>
           {
             /* <input
@@ -160,7 +196,7 @@ export default function Home({ data }: PageProps<any>) {
           }
           <div class="card-actions justify-end">
             <form>
-              <input type="date" id="start" name="q" value={dataDate}/>
+              <input type="date" id="start" name="q" value={dataDate} />
               <button class="btn btn-primary" type="submit">Search</button>
             </form>
           </div>
