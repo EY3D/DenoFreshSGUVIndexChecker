@@ -24,3 +24,8 @@ export default interface ApiResponse {
     hour: string; // ISO string format
     value: number;
   }
+
+  export default interface UVRecord {
+    hour: string; // Time in "7:00", "8:00", etc.
+    value: number;
+  }

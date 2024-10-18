@@ -23,24 +23,46 @@ export const handler: Handlers = {
     const query = url.searchParams.get("q") || ytdDate;
     const resp = await fetch(`${endpoint}?date=${query}`);
     if (resp.status == 200) {
-      const result: ApiResponse = await resp.json();
+      const apiResponse: ApiResponse = await resp.json();
       console.log("API called success, date " + query);
-      // console.log(result);
-      return ctx.render({ result });
+      console.log(apiResponse);
+
+      // From the apiResponse, we will search and append values of UVIndex from 7am to the latest hour updated
+      console.log("the length of the list is:")
+      console.log(apiResponse.data.records[0].index.length)
+      const finalList: any[] = []
+      for (let i = 0; i<apiResponse.data.records[0].index.length; i++){
+        finalList.push(apiResponse.data.records[0].index[i].value)
+      }// at this point, the latest hour is the first element while the earliest hour is the last element
+      finalList.reverse();
+      finalList.unshift(apiResponse.data.records[0].date)
+      
+      while (finalList.length<12){
+        // we need to append NA to hit 12 units. not 13 as we are not using 7pm uvindex.
+        finalList.push("N/A")
+      }
+      console.log("final list is:")
+      console.log(finalList)
+      //the following variable will be in the PageProps.data
+      return ctx.render({ finalList });
     }
     console.log("API called failed, date " + query);
     return ctx.render({ result: null });
   },
 };
 
-console.log(getYesterdayDate()); // Output: Yesterday's date in YYYY-MM-DD format
-
 interface ApiProps {
   data: ApiResponse | null;
 }
 
-function UVIndex({ data }: ApiProps) {
-  if (!data) {
+interface ApiProps2 {
+  myFinalList: any[] | null
+}
+
+function UVIndex({ myFinalList }: ApiProps2) {
+  console.log("UVIndex.myFinaList is:")
+  console.log(myFinalList)
+  if (myFinalList == null || myFinalList.length == 0) {
     return (
       <div>
         Date not found!
@@ -53,74 +75,74 @@ function UVIndex({ data }: ApiProps) {
       <div class="stats stats-vertical shadow">
         <div class="stat">
           <div class="stat-title">7AM</div>
-          <div class="stat-value">{data.data.records[0].index[12].value}</div>
+          <div class="stat-value">{myFinalList[12]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">8AM</div>
-          <div class="stat-value">{data.data.records[0].index[11].value}</div>
+          <div class="stat-value">{myFinalList[11]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">9AM</div>
-          <div class="stat-value">{data.data.records[0].index[10].value}</div>
+          <div class="stat-value">{myFinalList[10]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">10AM</div>
-          <div class="stat-value">{data.data.records[0].index[9].value}</div>
+          <div class="stat-value">{myFinalList[9]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">11AM</div>
-          <div class="stat-value">{data.data.records[0].index[8].value}</div>
+          <div class="stat-value">{myFinalList[8]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">12PM</div>
-          <div class="stat-value">{data.data.records[0].index[7].value}</div>
+          <div class="stat-value">{myFinalList[7]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
       </div>
       <div class="stats stats-vertical shadow">
         <div class="stat">
           <div class="stat-title">1PM</div>
-          <div class="stat-value">{data.data.records[0].index[6].value}</div>
+          <div class="stat-value">{myFinalList[6]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">2PM</div>
-          <div class="stat-value">{data.data.records[0].index[5].value}</div>
+          <div class="stat-value">{myFinalList[5]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">3PM</div>
-          <div class="stat-value">{data.data.records[0].index[4].value}</div>
+          <div class="stat-value">{myFinalList[4]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">4PM</div>
-          <div class="stat-value">{data.data.records[0].index[3].value}</div>
+          <div class="stat-value">{myFinalList[3]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">5PM</div>
-          <div class="stat-value">{data.data.records[0].index[2].value}</div>
+          <div class="stat-value">{myFinalList[2]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
         <div class="stat">
           <div class="stat-title">6PM</div>
-          <div class="stat-value">{data.data.records[0].index[1].value}</div>
+          <div class="stat-value">{myFinalList[1]}</div>
           <div class="stat-desc">UVIndex</div>
         </div>
 
@@ -136,10 +158,13 @@ function UVIndex({ data }: ApiProps) {
   );
 }
 
-export default function Home({ data }: PageProps<any>) {
+export default function Home({data}: PageProps<any>) {
+  const myList = data.finalList
+  console.log("Home myList:")
+  console.log(myList)
   let dataDate = ytdDate;
-  if (data.result != null) {
-    dataDate = data.result.data.records[0].date;
+  if (data != null && data.myList != null && data.myList.length>0) {
+    dataDate = myList[0];
   } else {
     dataDate = "dd/mm/yyyy";
   }
@@ -202,7 +227,7 @@ export default function Home({ data }: PageProps<any>) {
           </div>
         </div>
       </div>
-      <UVIndex data={data.result} />
+      <UVIndex myFinalList={data.finalList} />
     </div>
   );
 }
