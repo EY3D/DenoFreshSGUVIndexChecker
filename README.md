@@ -1,14 +1,6 @@
 # DenoFreshSGUVIndexChecker
-Made with Fresh and Deno
 
-# fresh project
+Hosted on Deno Deploy:
+https://sguvindexchecker.deno.dev/
 
-### Usage
-
-Start the project:
-
-```
-deno task start
-```
-
-This will watch the project directory and restart as necessary.
+Made with Fresh,Deno, DaisyUI, https://data.gov.sg/

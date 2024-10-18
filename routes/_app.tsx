@@ -10,7 +10,7 @@ export default function App({ Component }: PageProps) {
       </head>
       <body>
         <div class="navbar bg-base-100">
-          <a class="btn btn-ghost text-xl">EY3D</a>
+          <a class="btn btn-ghost text-xl" href="https://github.com/EY3D/">EY3D</a>
         </div>
         <Component />
       </body>

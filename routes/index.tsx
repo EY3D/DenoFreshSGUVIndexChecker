@@ -28,21 +28,21 @@ export const handler: Handlers = {
       console.log(apiResponse);
 
       // From the apiResponse, we will search and append values of UVIndex from 7am to the latest hour updated
-      console.log("the length of the list is:")
-      console.log(apiResponse.data.records[0].index.length)
-      const finalList: any[] = []
-      for (let i = 0; i<apiResponse.data.records[0].index.length; i++){
-        finalList.push(apiResponse.data.records[0].index[i].value)
-      }// at this point, the latest hour is the first element while the earliest hour is the last element
+      console.log("the length of the list is:");
+      console.log(apiResponse.data.records[0].index.length);
+      const finalList: any[] = [];
+      for (let i = 0; i < apiResponse.data.records[0].index.length; i++) {
+        finalList.push(apiResponse.data.records[0].index[i].value);
+      } // at this point, the latest hour is the first element while the earliest hour is the last element
       finalList.reverse();
-      finalList.unshift(apiResponse.data.records[0].date)
-      
-      while (finalList.length<12){
+      finalList.unshift(apiResponse.data.records[0].date);
+
+      while (finalList.length < 12) {
         // we need to append NA to hit 12 units. not 13 as we are not using 7pm uvindex.
-        finalList.push("N/A")
+        finalList.push("N/A");
       }
-      console.log("final list is:")
-      console.log(finalList)
+      console.log("final list is:");
+      console.log(finalList);
       //the following variable will be in the PageProps.data
       return ctx.render({ finalList });
     }
@@ -56,12 +56,12 @@ interface ApiProps {
 }
 
 interface ApiProps2 {
-  myFinalList: any[] | null
+  myFinalList: any[] | null;
 }
 
 function UVIndex({ myFinalList }: ApiProps2) {
-  console.log("UVIndex.myFinaList is:")
-  console.log(myFinalList)
+  console.log("UVIndex.myFinaList is:");
+  console.log(myFinalList);
   if (myFinalList == null || myFinalList.length == 0) {
     return (
       <div>
@@ -72,7 +72,7 @@ function UVIndex({ myFinalList }: ApiProps2) {
 
   return (
     <div>
-      <div class="stats stats-vertical shadow">
+      <div class="stats stats-vertical shadow m-2">
         <div class="stat">
           <div class="stat-title">7AM</div>
           <div class="stat-value">{myFinalList[12]}</div>
@@ -109,7 +109,7 @@ function UVIndex({ myFinalList }: ApiProps2) {
           <div class="stat-desc">UVIndex</div>
         </div>
       </div>
-      <div class="stats stats-vertical shadow">
+      <div class="stats stats-vertical shadow m-2">
         <div class="stat">
           <div class="stat-title">1PM</div>
           <div class="stat-value">{myFinalList[6]}</div>
@@ -158,18 +158,18 @@ function UVIndex({ myFinalList }: ApiProps2) {
   );
 }
 
-export default function Home({data}: PageProps<any>) {
-  const myList = data.finalList
-  console.log("Home myList:")
-  console.log(myList)
+export default function Home({ data }: PageProps<any>) {
+  const myList = data.finalList;
+  console.log("Home myList:");
+  console.log(myList);
   let dataDate = ytdDate;
-  if (data != null && data.myList != null && data.myList.length>0) {
+  if (data != null && data.myList != null && data.myList.length > 0) {
     dataDate = myList[0];
   } else {
     dataDate = "dd/mm/yyyy";
   }
   return (
-    <div class="h-screen flex items-center justify-center">
+    <div class="flex justify-center">
       <div class="card bg-base-200 w-96 shadow-xl">
         <div class="card-body">
           <h2 class="card-title">SG UV Index</h2>
@@ -209,7 +209,7 @@ export default function Home({data}: PageProps<any>) {
               </tbody>
             </table>
           </div>
-          <label for="start">Date:</label>
+          {/* <label for="start">Date:</label> */}
           {
             /* <input
             name="qtown"
@@ -219,15 +219,21 @@ export default function Home({data}: PageProps<any>) {
           >
           </input> */
           }
-          <div class="card-actions justify-end">
+          <div class="card-actions justify-center">
             <form>
               <input type="date" id="start" name="q" value={dataDate} />
-              <button class="btn btn-primary" type="submit">Search</button>
+              <div>
+                <button class="btn btn-primary" type="submit">
+                  Search Date
+                </button>
+              </div>
             </form>
           </div>
         </div>
+        <div class="flex justify-center">
+          <UVIndex myFinalList={data.finalList} />
+        </div>
       </div>
-      <UVIndex myFinalList={data.finalList} />
     </div>
   );
 }
