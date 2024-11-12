@@ -173,12 +173,13 @@ export default function Home({ data }: PageProps<any>) {
   const myList = data.finalList;
   console.log("Home myList:");
   console.log(myList);
-  let dataDate = todayDate;
-  if (data != null && data.myList != null && data.myList.length > 0) {
-    dataDate = myList[0];
-  } else {
-    dataDate = "dd/mm/yyyy";
-  }
+  // this dataDate logic does not work so commenting out, we will read directly from List[0]
+  // let dataDate = todayDate;
+  // if (data != null && data.myList != null && data.myList.length > 0) {
+  //   dataDate = myList[0];
+  // } else {
+  //   dataDate = "dd/mm/yyyy";
+  // }
   return (
     <div class="flex justify-center">
       <div class="card bg-base-200 w-96 shadow-xl">
@@ -232,7 +233,7 @@ export default function Home({ data }: PageProps<any>) {
           }
           <div class="card-actions justify-center">
             <form>
-              <input type="date" id="start" name="q" value={dataDate} />
+              <input type="date" id="start" name="q" value={myList[0]} />
               <div>
                 <button class="btn btn-primary m-2" type="submit">
                   Search Date
@@ -240,6 +241,9 @@ export default function Home({ data }: PageProps<any>) {
               </div>
             </form>
           </div>
+        </div>
+        <div class="flex w-full flex-col border-opacity-50">
+          <div class="card bg-base-300 rounded-box grid h-20 place-items-center">Your chosen date: {myList[0]}</div>
         </div>
         <div class="flex justify-center m-2">
           <UVIndex myFinalList={data.finalList} />
