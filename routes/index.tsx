@@ -73,6 +73,8 @@ interface ApiProps2 {
 function UVIndex({ myFinalList }: ApiProps2) {
   console.log("UVIndex.myFinaList is:");
   console.log(myFinalList);
+
+
   if (myFinalList == null || myFinalList.length == 0) {
     return (
       <div>
@@ -173,6 +175,9 @@ export default function Home({ data }: PageProps<any>) {
   const myList = data.finalList;
   console.log("Home myList:");
   console.log(myList);
+  let myDate = new Date(myList[0])
+  console.log(myDate)
+
   // this dataDate logic does not work so commenting out, we will read directly from List[0]
   // let dataDate = todayDate;
   // if (data != null && data.myList != null && data.myList.length > 0) {
@@ -243,7 +248,7 @@ export default function Home({ data }: PageProps<any>) {
           </div>
         </div>
         <div class="flex w-full flex-col border-opacity-50">
-          <div class="card bg-base-300 rounded-box grid h-20 place-items-center">Your chosen date: {myList[0]}</div>
+          <div class="card bg-base-300 rounded-box grid h-20 place-items-center">Selected date: {myDate.getDate()}/{myDate.getMonth()+1}/{myDate.getFullYear()}</div>
         </div>
         <div class="flex justify-center m-2">
           <UVIndex myFinalList={data.finalList} />
