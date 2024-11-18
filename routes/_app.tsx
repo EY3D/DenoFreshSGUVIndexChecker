@@ -5,12 +5,20 @@ export default function App({ Component }: PageProps) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>fresh-project</title>
+        <title>SG UVINDEX CHECKER by EY3D</title>
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body>
         <div class="navbar bg-base-100">
-          <a class="btn btn-ghost text-xl" href="https://github.com/EY3D/">EY3D</a>
+          <div class="flex-1">
+            <a class="btn btn-ghost text-xl" href="https://github.com/EY3D/">EY3D</a>
+          </div>
+          <div class="flex-none justify-start">
+            <ul class="menu menu-horizontal px-1">
+              <li><a href="/">Home</a></li>
+              <li><a href="/about">About</a></li>
+             </ul>
+          </div>
         </div>
         <Component />
       </body>
